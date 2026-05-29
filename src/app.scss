@@ -1,0 +1,79 @@
+@use './styles/variables.scss' as *;
+
+page {
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(180deg, var(--brand-50) 0%, #f8fef9 100%);
+  color: var(--text-primary);
+}
+
+.container {
+  min-height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 18rpx;
+}
+
+.muted {
+  color: var(--text-secondary);
+  font-size: 26rpx;
+}
+
+.primary-btn {
+  width: 100%;
+  border-radius: 999rpx;
+  background: linear-gradient(120deg, var(--brand-500), var(--brand-700));
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+}
+
+.chip {
+  display: inline-block;
+  border-radius: 999rpx;
+  background: var(--brand-100);
+  color: var(--brand-700);
+  font-size: 24rpx;
+  padding: 8rpx 18rpx;
+}
+
+.field-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  background: #fff;
+  border-radius: var(--radius-md);
+  border: 2rpx solid #d7e8da;
+  padding: 18rpx 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

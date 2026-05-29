@@ -1,0 +1,54 @@
+.preset-wrap {
+  margin-top: 16rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.preset-chip {
+  background: #dff4e3;
+  color: #1f6f39;
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.photo-item,
+.photo-slot {
+  width: 145rpx;
+  height: 145rpx;
+  border-radius: 14rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-slot {
+  border: 2rpx dashed #8acb9a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4d7c59;
+  font-size: 22rpx;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+}
+
+.photo-del {
+  position: absolute;
+  right: 6rpx;
+  bottom: 6rpx;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 999rpx;
+  padding: 2rpx 12rpx;
+}

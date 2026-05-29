@@ -1,0 +1,21 @@
+.profile-header {
+  background: linear-gradient(130deg, #2f8f4e, #1e6f39);
+
+  &__name {
+    display: block;
+    color: #fff;
+    font-size: 36rpx;
+    font-weight: 600;
+    margin-bottom: 10rpx;
+  }
+
+  &__desc {
+    color: #e9f8ed;
+    font-size: 24rpx;
+  }
+}
+
+.profile-menu {
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}

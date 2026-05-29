@@ -1,0 +1,176 @@
+import { Button, Image, Input, Picker, Switch, Text, View } from '@tarojs/components';
+import Taro, { useDidShow, useRouter } from '@tarojs/taro';
+import { useMemo, useState } from 'react';
+import { formatDateTime } from '@/services/date';
+import { getFlower, markFlowerWatered, removeFlower, updateFlower } from '@/services/flowerService';
+import type { Flower, FlowerPhoto, ReminderMode } from '@/types/flower';
+import './index.scss';
+
+const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+
+const createPhoto = (url: string): FlowerPhoto => ({
+  id: `p_${Date.now()}_${Math.random().toString(16).slice(2, 6)}`,
+  url,
+  uploadedAt: new Date().toISOString(),
+});
+
+export default function FlowerDetailPage() {
+  const router = useRouter();
+  const flowerId = router.params?.id || '';
+
+  const [flower, setFlower] = useState<Flower | null>(null);
+
+  const reload = () => {
+    if (!flowerId) return;
+    const f = getFlower(flowerId) || null;
+    setFlower(f);
+  };
+
+  useDidShow(() => reload());
+
+  const hourIdx = useMemo(() => flower?.reminderHour || 8, [flower?.reminderHour]);
+
+  if (!flower) {
+    return (
+      <View className='container'>
+        <View className='card muted'>花卉不存在或已删除。</View>
+      </View>
+    );
+  }
+
+  const savePatch = (patch: Partial<Flower>) => {
+    updateFlower(flower.id, patch);
+    reload();
+  };
+
+  const choosePhotos = async () => {
+    const remain = Math.max(10 - flower.photos.length, 1);
+    const res = await Taro.chooseImage({ count: remain, sizeType: ['compressed'] });
+    const next = res.tempFilePaths.map(createPhoto);
+    savePatch({ photos: [...flower.photos, ...next].slice(0, 10) });
+  };
+
+  const timeline = [...flower.photos].sort(
+    (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+  );
+
+  return (
+    <View className='container'>
+      <View className='section-title'>{flower.name}</View>
+
+      <View className='card'>
+        <Text className='field-label'>花卉名称</Text>
+        <Input className='input' value={flower.name} onInput={(e) => savePatch({ name: e.detail.value })} />
+
+        <Text className='field-label mt'>摆放位置</Text>
+        <Input className='input' value={flower.location} onInput={(e) => savePatch({ location: e.detail.value })} />
+      </View>
+
+      <View className='card'>
+        <View className='row-between'>
+          <Text className='field-label'>提醒开关</Text>
+          <Switch
+            checked={flower.reminderEnabled}
+            color='#2f8f4e'
+            onChange={(e) => savePatch({ reminderEnabled: e.detail.value })}
+          />
+        </View>
+
+        <Text className='field-label mt'>浇水间隔（天）</Text>
+        <Input
+          className='input'
+          type='number'
+          value={`${flower.intervalDays}`}
+          onInput={(e) => {
+            const n = Math.max(1, Math.min(30, Number(e.detail.value) || 1));
+            savePatch({ intervalDays: n });
+          }}
+        />
+
+        <Text className='field-label mt'>提醒时间</Text>
+        <Picker
+          mode='selector'
+          range={hours}
+          value={hourIdx}
+          onChange={(e) => savePatch({ reminderHour: Number(e.detail.value) })}
+        >
+          <View className='picker'>{hours[hourIdx]}</View>
+        </Picker>
+
+        <Text className='field-label mt'>提醒模式</Text>
+        <View className='preset-wrap'>
+          <Text
+            className={`preset-chip ${flower.reminderMode === 'once' ? 'active' : ''}`}
+            onClick={() => savePatch({ reminderMode: 'once' as ReminderMode })}
+          >
+            仅一次
+          </Text>
+          <Text
+            className={`preset-chip ${flower.reminderMode === 'loop' ? 'active' : ''}`}
+            onClick={() => savePatch({ reminderMode: 'loop' as ReminderMode })}
+          >
+            循环
+          </Text>
+        </View>
+      </View>
+
+      <View className='card'>
+        <View className='row-between'>
+          <Text className='field-label'>生长时间轴</Text>
+          <Button size='mini' className='green-mini' onClick={choosePhotos}>
+            + 新增照片
+          </Button>
+        </View>
+
+        {!timeline.length && <View className='muted'>暂无照片，已预留图片位置。</View>}
+        {timeline.map((photo) => (
+          <View key={photo.id} className='timeline-item row-between'>
+            <View className='row'>
+              <Image className='timeline-img' src={photo.url} mode='aspectFill' />
+              <Text className='timeline-time'>{formatDateTime(photo.uploadedAt)}</Text>
+            </View>
+            <Text
+              className='timeline-del'
+              onClick={() => savePatch({ photos: flower.photos.filter((p) => p.id !== photo.id) })}
+            >
+              删除
+            </Text>
+          </View>
+        ))}
+      </View>
+
+      <View className='card'>
+        <Text className='muted'>下次浇水：{formatDateTime(flower.nextWateringAt)}</Text>
+        <View className='btn-row'>
+          <Button
+            className='primary-btn'
+            onClick={() => {
+              markFlowerWatered(flower.id);
+              reload();
+              Taro.showToast({ title: '已记录浇水', icon: 'success' });
+            }}
+          >
+            已浇水
+          </Button>
+          <Button
+            className='danger-btn'
+            onClick={() => {
+              Taro.showModal({
+                title: '确认删除',
+                content: '删除后无法恢复，是否继续？',
+                success: (res) => {
+                  if (res.confirm) {
+                    removeFlower(flower.id);
+                    Taro.navigateBack();
+                  }
+                },
+              });
+            }}
+          >
+            删除花卉
+          </Button>
+        </View>
+      </View>
+    </View>
+  );
+}

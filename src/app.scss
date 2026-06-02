@@ -62,7 +62,9 @@ page {
   background: #fff;
   border-radius: var(--radius-md);
   border: 2rpx solid #d7e8da;
-  padding: 18rpx 20rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  padding: 0 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
 }

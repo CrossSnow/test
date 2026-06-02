@@ -8,36 +8,7 @@ const PENDING_KEY = 'flower_timer_pending_flower_v1';
 
 const seedFlowers = (): Flower[] => {
   const now = new Date().toISOString();
-  return [
-    {
-      id: 'f_1',
-      name: '绿萝',
-      location: '客厅阳台',
-      photos: [],
-      intervalDays: 3,
-      reminderHour: 8,
-      reminderMode: 'loop',
-      reminderEnabled: true,
-      createdAt: now,
-      updatedAt: now,
-      lastWateredAt: now,
-      nextWateringAt: addDays(now, 3, 8),
-    },
-    {
-      id: 'f_2',
-      name: '多肉',
-      location: '卧室窗台',
-      photos: [],
-      intervalDays: 7,
-      reminderHour: 9,
-      reminderMode: 'loop',
-      reminderEnabled: true,
-      createdAt: now,
-      updatedAt: now,
-      lastWateredAt: now,
-      nextWateringAt: addDays(now, 7, 9),
-    },
-  ];
+  return [];
 };
 
 const readFlowers = (): Flower[] => {
@@ -170,7 +141,7 @@ export const syncDueReminderLogs = () => {
       id: `l_${Date.now()}_${flower.id}`,
       flowerId: flower.id,
       flowerName: flower.name,
-      message: `【小花定时】你的${flower.name}该浇水啦！摆放位置：${flower.location || '未设置'}`,
+      message: `【花点时间】你的${flower.name}该浇水啦！摆放位置：${flower.location || '未设置'}`,
       createdAt: nowIso,
       kind: 'due',
     });

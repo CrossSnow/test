@@ -2,7 +2,7 @@
   "name": "flower-timer-miniapp",
   "version": "1.0.0",
   "private": true,
-  "description": "小花定时 - Taro 3 微信小程序",
+  "description": "花点时间 - Taro 3 微信小程序",
   "scripts": {
     "dev:weapp": "taro build --type weapp --watch",
     "build:weapp": "taro build --type weapp",

@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <View className='container home-page'>
       <View className='home-hero card'>
-        <Text className='home-hero__title'>小花定时</Text>
+        <Text className='home-hero__title'>花点时间</Text>
         <Text className='home-hero__subtitle'>浇水不忘记，养花更省心</Text>
         <View className='row-between'>
           <Text className='chip'>待浇水 {dueCount} 盆</Text>

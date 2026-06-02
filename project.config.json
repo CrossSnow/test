@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "dist/",
   "projectname": "flower-timer-miniapp",
-  "description": "小花定时",
+  "description": "花点时间",
   "appid": "touristappid",
   "setting": {
     "es6": true,

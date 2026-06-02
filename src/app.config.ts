@@ -12,7 +12,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#2f8f4e',
-    navigationBarTitleText: '小花定时',
+    navigationBarTitleText: '花点时间',
     navigationBarTextStyle: 'white',
     backgroundColor: '#f3fbf4',
   },

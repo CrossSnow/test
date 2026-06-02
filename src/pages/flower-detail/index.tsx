@@ -19,11 +19,19 @@ export default function FlowerDetailPage() {
   const flowerId = router.params?.id || '';
 
   const [flower, setFlower] = useState<Flower | null>(null);
+  const [draftName, setDraftName] = useState('');
+  const [draftLocation, setDraftLocation] = useState('');
+  const [draftInterval, setDraftInterval] = useState('');
 
   const reload = () => {
     if (!flowerId) return;
     const f = getFlower(flowerId) || null;
     setFlower(f);
+    if (f) {
+      setDraftName(f.name);
+      setDraftLocation(f.location);
+      setDraftInterval(`${f.intervalDays}`);
+    }
   };
 
   useDidShow(() => reload());
@@ -60,10 +68,34 @@ export default function FlowerDetailPage() {
 
       <View className='card'>
         <Text className='field-label'>花卉名称</Text>
-        <Input className='input' value={flower.name} onInput={(e) => savePatch({ name: e.detail.value })} />
+        <Input
+          className='input'
+          value={draftName}
+          onInput={(e) => setDraftName(e.detail.value)}
+          onBlur={(e) => {
+            const next = (e.detail.value || '').trim();
+            if (!next) {
+              setDraftName(flower.name);
+              return;
+            }
+            if (next !== flower.name) {
+              savePatch({ name: next });
+            }
+          }}
+        />
 
         <Text className='field-label mt'>摆放位置</Text>
-        <Input className='input' value={flower.location} onInput={(e) => savePatch({ location: e.detail.value })} />
+        <Input
+          className='input'
+          value={draftLocation}
+          onInput={(e) => setDraftLocation(e.detail.value)}
+          onBlur={(e) => {
+            const next = (e.detail.value || '').trim();
+            if (next !== flower.location) {
+              savePatch({ location: next });
+            }
+          }}
+        />
       </View>
 
       <View className='card'>
@@ -80,10 +112,14 @@ export default function FlowerDetailPage() {
         <Input
           className='input'
           type='number'
-          value={`${flower.intervalDays}`}
-          onInput={(e) => {
-            const n = Math.max(1, Math.min(30, Number(e.detail.value) || 1));
-            savePatch({ intervalDays: n });
+          value={draftInterval}
+          onInput={(e) => setDraftInterval(e.detail.value)}
+          onBlur={(e) => {
+            const n = Math.max(1, Math.min(30, Number(e.detail.value) || flower.intervalDays));
+            setDraftInterval(`${n}`);
+            if (n !== flower.intervalDays) {
+              savePatch({ intervalDays: n });
+            }
           }}
         />
 

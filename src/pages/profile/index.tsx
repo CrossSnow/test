@@ -14,7 +14,7 @@ export default function ProfilePage() {
     <View className='container'>
       <View className='profile-header card'>
         <Text className='profile-header__name'>微信用户</Text>
-        <Text className='profile-header__desc'>欢迎使用小花定时，浇水提醒已为你准备好。</Text>
+        <Text className='profile-header__desc'>欢迎使用花点时间，浇水提醒已为你准备好。</Text>
       </View>
 
       <View className='section-title'>个人中心</View>
@@ -31,7 +31,7 @@ export default function ProfilePage() {
           }}
         >
           <Text>{menu.title}</Text>
-          <Text className='muted'>></Text>
+          <Text className='muted'> &gt; </Text>
         </View>
       ))}
     </View>

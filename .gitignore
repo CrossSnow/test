@@ -3,6 +3,7 @@
 .vscode/
 *.swp
 *.swo
+*.swc
 *~
 
 # 系统文件
@@ -23,6 +24,8 @@ out/
 *.log
 tmp/
 temp/
+package-lock.json
+yarn.lock
 
 # 测试/缓存
 coverage/

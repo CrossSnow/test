@@ -77,7 +77,7 @@ export default function AddFlowerPage() {
           ))}
           {photos.length < 10 && (
             <View className='photo-slot' onClick={choosePhotos}>
-              <Text>+ 图片预留位</Text>
+              <Text>+ 图片</Text>
             </View>
           )}
         </View>

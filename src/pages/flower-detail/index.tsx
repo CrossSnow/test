@@ -62,6 +62,16 @@ export default function FlowerDetailPage() {
     (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
   );
 
+  // 预览大图方法：参数为当前点击图片url
+  const previewBigImg = (currentUrl: string) => {
+    // 提取所有图片url数组，实现左右滑动切换
+    const allImgUrls = timeline.map(item => item.url);
+    Taro.previewImage({
+      current: currentUrl, // 当前预览图片
+      urls: allImgUrls    // 全部图片列表
+    })
+  }
+
   return (
     <View className='container'>
       <View className='section-title'>{flower.name}</View>
@@ -158,11 +168,11 @@ export default function FlowerDetailPage() {
           </Button>
         </View>
 
-        {!timeline.length && <View className='muted'>暂无照片，已预留图片位置。</View>}
+        {!timeline.length && <View className='muted'>暂无照片</View>}
         {timeline.map((photo) => (
           <View key={photo.id} className='timeline-item row-between'>
             <View className='row'>
-              <Image className='timeline-img' src={photo.url} mode='aspectFill' />
+              <Image className='timeline-img' src={photo.url} mode='aspectFill' onClick={() => previewBigImg(photo.url)} />
               <Text className='timeline-time'>{formatDateTime(photo.uploadedAt)}</Text>
             </View>
             <Text

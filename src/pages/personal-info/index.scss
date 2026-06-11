@@ -1,0 +1,80 @@
+.personal-page {
+  padding-bottom: 36rpx;
+}
+
+.personal-hero {
+  background:
+    radial-gradient(circle at 84% 18%, rgba(137, 211, 154, 0.24) 0%, rgba(137, 211, 154, 0) 36%),
+    linear-gradient(140deg, #ffffff 0%, #f3fbf4 100%);
+  border: 2rpx solid #deefe2;
+}
+
+.personal-hero-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1f3324;
+}
+
+.personal-hero-subtitle {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #5f7363;
+}
+
+.personal-card {
+  border: 1rpx solid #e8f2ea;
+}
+
+.personal-row {
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #ecf3ed;
+}
+
+.no-border {
+  border-bottom: none;
+}
+
+.personal-value {
+  font-size: 27rpx;
+  color: #304e37;
+  max-width: 420rpx;
+  text-align: right;
+}
+
+.personal-input {
+  width: 360rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+}
+
+.personal-picker {
+  min-width: 180rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #2f6f3f;
+}
+
+.personal-btn {
+  margin-top: 16rpx;
+}
+
+.personal-actions {
+  margin-top: 16rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.personal-cancel-btn {
+  width: 40%;
+  background: #f3f5f3;
+  color: #344736;
+  border-radius: 999rpx;
+  border: 1rpx solid #d8e4da;
+  font-size: 28rpx;
+}

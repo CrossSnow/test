@@ -1,6 +1,7 @@
 import { Button, Image, Input, Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState } from 'react';
+import { MAX_FLOWER_PHOTOS } from '@/constants';
 import { savePendingFlowerDraft } from '@/services/flowerService';
 import type { FlowerPhoto } from '@/types/flower';
 import './index.scss';
@@ -19,10 +20,10 @@ export default function AddFlowerPage() {
   const [photos, setPhotos] = useState<FlowerPhoto[]>([]);
 
   const choosePhotos = async () => {
-    const remain = Math.max(10 - photos.length, 1);
+    const remain = Math.max(MAX_FLOWER_PHOTOS - photos.length, 1);
     const res = await Taro.chooseImage({ count: remain, sizeType: ['compressed'] });
     const next = res.tempFilePaths.map(createPhoto);
-    setPhotos((prev) => [...prev, ...next].slice(0, 10));
+    setPhotos((prev) => [...prev, ...next].slice(0, MAX_FLOWER_PHOTOS));
   };
 
   const submit = () => {
@@ -41,15 +42,18 @@ export default function AddFlowerPage() {
   };
 
   return (
-    <View className='container'>
-      <View className='section-title'>添加小花</View>
+    <View className='container add-page'>
+      <View className='card add-hero'>
+        <Text className='add-hero-title'>添加小花</Text>
+        <Text className='add-hero-subtitle'>先记录基础信息，再上传照片，下一步设置提醒即可。</Text>
+      </View>
 
-      <View className='card'>
+      <View className='card add-card'>
         <Text className='field-label'>花卉名称</Text>
         <Input className='input' placeholder='例如：绿萝、月季、多肉' value={name} onInput={(e) => setName(e.detail.value)} />
       </View>
 
-      <View className='card'>
+      <View className='card add-card'>
         <Text className='field-label'>摆放位置</Text>
         <Input className='input' placeholder='例如：客厅阳台' value={location} onInput={(e) => setLocation(e.detail.value)} />
         <View className='preset-wrap'>
@@ -61,11 +65,12 @@ export default function AddFlowerPage() {
         </View>
       </View>
 
-      <View className='card'>
+      <View className='card add-card'>
         <View className='row-between'>
-          <Text className='field-label'>上传图片（最多 10 张）</Text>
-          <Text className='muted'>{photos.length}/10</Text>
+          <Text className='field-label'>上传图片（最多 {MAX_FLOWER_PHOTOS} 张）</Text>
+          <Text className='add-count'>{photos.length}/{MAX_FLOWER_PHOTOS}</Text>
         </View>
+        <Text className='add-tip'>建议至少上传 1 张正面照片，方便后续观察生长变化。</Text>
         <View className='photo-grid'>
           {photos.map((photo) => (
             <View key={photo.id} className='photo-item'>
@@ -75,7 +80,7 @@ export default function AddFlowerPage() {
               </Text>
             </View>
           ))}
-          {photos.length < 10 && (
+          {photos.length < MAX_FLOWER_PHOTOS && (
             <View className='photo-slot' onClick={choosePhotos}>
               <Text>+ 图片</Text>
             </View>
@@ -83,7 +88,7 @@ export default function AddFlowerPage() {
         </View>
       </View>
 
-      <Button className='primary-btn' onClick={submit}>
+      <Button className='primary-btn add-submit-btn' onClick={submit}>
         确认添加
       </Button>
     </View>

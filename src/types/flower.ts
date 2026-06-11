@@ -36,3 +36,20 @@ export interface PendingFlowerDraft {
   location: string;
   photos: FlowerPhoto[];
 }
+
+export interface UserInfo {
+  openid: string;
+  nickname: string;
+  avatar: string;
+  gender: number; // 0: 未知, 1: 男, 2: 女
+  city: string;
+  province: string;
+  country: string;
+  unionid?: string;
+}
+
+export interface LoginResult {
+  success: boolean;
+  userInfo?: UserInfo;
+  error?: string;
+}

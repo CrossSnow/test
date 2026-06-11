@@ -6,10 +6,11 @@ import './FlowerCard.scss';
 interface FlowerCardProps {
   flower: Flower;
   onOpenDetail: (flowerId: string) => void;
+  onEdit?: (flowerId: string) => void;
   onWatered?: (flowerId: string) => void;
 }
 
-export default function FlowerCard({ flower, onOpenDetail, onWatered }: FlowerCardProps) {
+export default function FlowerCard({ flower, onOpenDetail, onEdit, onWatered }: FlowerCardProps) {
   const due = new Date(flower.nextWateringAt).getTime() <= Date.now();
 
   return (
@@ -31,11 +32,18 @@ export default function FlowerCard({ flower, onOpenDetail, onWatered }: FlowerCa
         <Text className='flower-card__meta'>下次浇水：{formatDate(flower.nextWateringAt)}</Text>
       </View>
 
-      {onWatered && (
-        <Button className='flower-card__btn' onClick={() => onWatered(flower.id)} size='mini'>
-          已浇水
-        </Button>
-      )}
+      <View className='flower-card__actions'>
+        {onWatered && (
+          <Button className='flower-card__btn' onClick={() => onWatered(flower.id)} size='mini'>
+            已浇水
+          </Button>
+        )}
+        {onEdit && (
+          <Button className='flower-card__btn flower-card__btn--edit' onClick={() => onEdit(flower.id)} size='mini'>
+            编辑
+          </Button>
+        )}
+      </View>
     </View>
   );
 }

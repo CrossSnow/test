@@ -1,6 +1,7 @@
 import { Button, Image, Input, Picker, Switch, Text, View } from '@tarojs/components';
 import Taro, { useDidShow, useRouter } from '@tarojs/taro';
 import { useMemo, useState } from 'react';
+import { MAX_FLOWER_PHOTOS } from '@/constants';
 import { formatDateTime } from '@/services/date';
 import { getFlower, markFlowerWatered, removeFlower, updateFlower } from '@/services/flowerService';
 import type { Flower, FlowerPhoto, ReminderMode } from '@/types/flower';
@@ -14,7 +15,7 @@ const createPhoto = (url: string): FlowerPhoto => ({
   uploadedAt: new Date().toISOString(),
 });
 
-export default function FlowerDetailPage() {
+export default function FlowerEditPage() {
   const router = useRouter();
   const flowerId = router.params?.id || '';
 
@@ -52,10 +53,10 @@ export default function FlowerDetailPage() {
   };
 
   const choosePhotos = async () => {
-    const remain = Math.max(10 - flower.photos.length, 1);
+    const remain = Math.max(MAX_FLOWER_PHOTOS - flower.photos.length, 1);
     const res = await Taro.chooseImage({ count: remain, sizeType: ['compressed'] });
     const next = res.tempFilePaths.map(createPhoto);
-    savePatch({ photos: [...flower.photos, ...next].slice(0, 10) });
+    savePatch({ photos: [...flower.photos, ...next].slice(0, MAX_FLOWER_PHOTOS) });
   };
 
   const timeline = [...flower.photos].sort(
@@ -73,10 +74,13 @@ export default function FlowerDetailPage() {
   }
 
   return (
-    <View className='container'>
-      <View className='section-title'>{flower.name}</View>
+    <View className='container edit-page'>
+      <View className='card edit-hero'>
+        <Text className='edit-hero-title'>{flower.name}</Text>
+        <Text className='edit-hero-subtitle'>可修改信息、提醒设置和生长照片，变更会自动保存。</Text>
+      </View>
 
-      <View className='card'>
+      <View className='card edit-card'>
         <Text className='field-label'>花卉名称</Text>
         <Input
           className='input'
@@ -108,7 +112,7 @@ export default function FlowerDetailPage() {
         />
       </View>
 
-      <View className='card'>
+      <View className='card edit-card'>
         <View className='row-between'>
           <Text className='field-label'>提醒开关</Text>
           <Switch
@@ -160,13 +164,14 @@ export default function FlowerDetailPage() {
         </View>
       </View>
 
-      <View className='card'>
+      <View className='card edit-card'>
         <View className='row-between'>
           <Text className='field-label'>生长时间轴</Text>
           <Button size='mini' className='green-mini' onClick={choosePhotos}>
             + 新增照片
           </Button>
         </View>
+        <Text className='edit-count'>已上传 {timeline.length}/{MAX_FLOWER_PHOTOS}</Text>
 
         {!timeline.length && <View className='muted'>暂无照片</View>}
         {timeline.map((photo) => (
@@ -185,15 +190,20 @@ export default function FlowerDetailPage() {
         ))}
       </View>
 
-      <View className='card'>
-        <Text className='muted'>下次浇水：{formatDateTime(flower.nextWateringAt)}</Text>
+      <View className='card edit-action-card'>
+        <Text className='edit-next-water'>下次浇水：{formatDateTime(flower.nextWateringAt)}</Text>
         <View className='btn-row'>
           <Button
             className='primary-btn'
             onClick={() => {
               markFlowerWatered(flower.id);
-              reload();
               Taro.showToast({ title: '已记录浇水', icon: 'success' });
+              // Navigate back to the view page after watering
+              setTimeout(() => {
+                Taro.redirectTo({
+                  url: `/pages/flower-detail/view?id=${flower.id}`
+                });
+              }, 1500);
             }}
           >
             已浇水

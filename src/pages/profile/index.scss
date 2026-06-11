@@ -19,3 +19,41 @@
   margin-bottom: 16rpx;
   font-size: 28rpx;
 }
+
+.login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 40rpx;
+  text-align: center;
+
+  &__title {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20rpx;
+  }
+
+  &__desc {
+    font-size: 28rpx;
+    color: #999;
+    margin-bottom: 60rpx;
+    line-height: 1.6;
+  }
+}
+
+.login-button {
+  width: 60%;
+  height: 80rpx;
+  background: linear-gradient(130deg, #2f8f4e, #1e6f39);
+  border-radius: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__text {
+    color: white;
+    font-size: 32rpx;
+    font-weight: 500;
+  }
+}

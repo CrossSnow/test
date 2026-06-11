@@ -1,3 +1,69 @@
+.add-page {
+  padding-bottom: 36rpx;
+}
+
+@keyframes addFadeRise {
+  from {
+    opacity: 0;
+    transform: translateY(18rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photoFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4rpx);
+  }
+}
+
+.add-hero {
+  background:
+    radial-gradient(circle at 90% 20%, rgba(47, 143, 78, 0.22) 0%, rgba(47, 143, 78, 0) 36%),
+    linear-gradient(145deg, #ffffff 0%, #f3fbf4 100%);
+  border: 2rpx solid #d8ebdd;
+  animation: addFadeRise 380ms ease-out both;
+}
+
+.add-hero-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1f3324;
+  line-height: 1.25;
+}
+
+.add-hero-subtitle {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #607463;
+}
+
+.add-card {
+  border: 1rpx solid #e8f2ea;
+  animation: addFadeRise 420ms ease-out both;
+}
+
+.add-card:nth-of-type(2) {
+  animation-delay: 80ms;
+}
+
+.add-card:nth-of-type(3) {
+  animation-delay: 140ms;
+}
+
+.add-card:nth-of-type(4) {
+  animation-delay: 200ms;
+}
+
 .preset-wrap {
   margin-top: 16rpx;
   display: flex;
@@ -6,11 +72,28 @@
 }
 
 .preset-chip {
-  background: #dff4e3;
-  color: #1f6f39;
+  background: #ebf8ef;
+  color: #2b6f3f;
+  border: 1rpx solid #d1e7d7;
   font-size: 24rpx;
-  padding: 8rpx 16rpx;
+  padding: 8rpx 18rpx;
   border-radius: 999rpx;
+}
+
+.add-count {
+  font-size: 24rpx;
+  color: #2f7f48;
+  background: #edf8ef;
+  border: 1rpx solid #d1e8d7;
+  border-radius: 999rpx;
+  padding: 6rpx 14rpx;
+}
+
+.add-tip {
+  margin-top: 8rpx;
+  margin-bottom: 14rpx;
+  font-size: 22rpx;
+  color: #6a7d6d;
 }
 
 .photo-grid {
@@ -30,16 +113,33 @@
 
 .photo-slot {
   border: 2rpx dashed #8acb9a;
+  background: #f7fcf8;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4d7c59;
+  color: #3f6f4c;
+  font-weight: 600;
   font-size: 22rpx;
 }
 
 .photo-img {
   width: 100%;
   height: 100%;
+}
+
+.photo-item {
+  border: 1rpx solid #d9eadd;
+  box-shadow: 0 8rpx 20rpx rgba(33, 93, 55, 0.12);
+  animation: photoFloat 2.8s ease-in-out infinite;
+}
+
+.photo-item:nth-child(2n) {
+  animation-delay: 260ms;
+}
+
+.photo-item:active,
+.photo-slot:active {
+  transform: scale(0.97);
 }
 
 .photo-del {
@@ -51,4 +151,16 @@
   font-size: 20rpx;
   border-radius: 999rpx;
   padding: 2rpx 12rpx;
+}
+
+.add-submit-btn {
+  margin-top: 14rpx;
+  box-shadow: 0 12rpx 24rpx rgba(33, 93, 55, 0.2);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.add-submit-btn:active,
+.preset-chip:active {
+  transform: translateY(2rpx) scale(0.98);
+  filter: brightness(0.97);
 }

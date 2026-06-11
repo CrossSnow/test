@@ -6,6 +6,8 @@ export default defineAppConfig({
     'pages/add-flower/index',
     'pages/water-settings/index',
     'pages/flower-detail/index',
+    'pages/flower-detail/view', // Add the view page
+    'pages/personal-info/index',
     'pages/reminder-history/index',
     'pages/feedback/index',
   ],

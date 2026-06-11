@@ -1,7 +1,6 @@
-import { Button, Text, View } from '@tarojs/components';
+import { Button, Image, Text, View } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useState } from 'react';
-import FlowerCard from '@/components/FlowerCard';
 import { listFlowers, markFlowerWatered, syncDueReminderLogs } from '@/services/flowerService';
 import type { Flower } from '@/types/flower';
 import './index.scss';
@@ -19,7 +18,7 @@ export default function HomePage() {
   });
 
   const goAdd = () => Taro.navigateTo({ url: '/pages/add-flower/index' });
-  const goDetail = (id: string) => Taro.navigateTo({ url: `/pages/flower-detail/index?id=${id}` });
+  const goDetail = (id: string) => Taro.navigateTo({ url: `/pages/flower-detail/view?id=${id}&source=home` });
 
   const onWatered = (id: string) => {
     markFlowerWatered(id);
@@ -53,9 +52,22 @@ export default function HomePage() {
           <Text className='home-empty__text'>还没有小花，先添加一盆吧</Text>
         </View>
       ) : (
-        flowers.map((flower) => (
-          <FlowerCard key={flower.id} flower={flower} onOpenDetail={goDetail} onWatered={onWatered} />
-        ))
+        <View className="flower-grid">
+          {flowers.map((flower) => (
+            <View
+              key={flower.id}
+              className="flower-item"
+              onClick={() => goDetail(flower.id)}
+            >
+              <Image
+                className="flower-image"
+                src={flower.photos[0]?.url || 'https://via.placeholder.com/150x150?text=花朵'}
+                mode="aspectFill"
+              />
+              <Text className="flower-name">{flower.name}</Text>
+            </View>
+          ))}
+        </View>
       )}
     </View>
   );

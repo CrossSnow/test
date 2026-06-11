@@ -11,3 +11,86 @@
   border-radius: 999rpx;
   padding: 0 24rpx;
 }
+
+.login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 40rpx;
+  text-align: center;
+
+  &__title {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20rpx;
+  }
+
+  &__desc {
+    font-size: 28rpx;
+    color: #999;
+    margin-bottom: 60rpx;
+    line-height: 1.6;
+  }
+}
+
+.login-button {
+  width: 60%;
+  height: 80rpx;
+  background: linear-gradient(130deg, #2f8f4e, #1e6f39);
+  border-radius: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__text {
+    color: white;
+    font-size: 32rpx;
+    font-weight: 500;
+  }
+}
+
+.flower-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* Remove old unused styles */
+/*
+.flower-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.flower-item {
+  flex: 1;
+  min-width: calc(50% - 10rpx); // Two items per row with gap //
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.flower-image {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 8rpx;
+  object-fit: cover;
+  margin-bottom: 12rpx;
+}
+
+.flower-name {
+  font-size: 28rpx;
+  text-align: center;
+  color: #333;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+*/

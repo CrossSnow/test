@@ -2,14 +2,16 @@ import { Button, Text, View } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { isAuthenticated, wechatLogin } from '@/services/authService';
+import UsernamePasswordModal from '@/components/UsernamePasswordModal';
 import { listFlowers, markFlowerWatered, syncDueReminderLogs } from '@/services/flowerService';
-import type { Flower } from '@/types/flower';
+import type { Flower, LoginResult } from '@/types/flower';
 import FlowerCard from '@/components/FlowerCard';
 import './index.scss';
 
 export default function MyFlowersPage() {
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showUsernamePasswordModal, setShowUsernamePasswordModal] = useState(false);
 
   useEffect(() => {
     checkLoginStatus();
@@ -53,6 +55,14 @@ export default function MyFlowersPage() {
     }
   };
 
+  const handleUsernamePasswordLoginSuccess = (result: LoginResult) => {
+    if (result.success) {
+      setIsLoggedIn(true);
+      setShowUsernamePasswordModal(false);
+      reload(); // Reload flowers after login
+    }
+  };
+
   const reload = () => {
     syncDueReminderLogs();
     setFlowers(listFlowers());
@@ -87,7 +97,18 @@ export default function MyFlowersPage() {
           >
             <Text className='login-button__text'>微信一键登录</Text>
           </Button>
+          <Button
+            className='login-button secondary'
+            onClick={() => setShowUsernamePasswordModal(true)}
+          >
+            <Text className='login-button__text'>用户名密码登录</Text>
+          </Button>
         </View>
+        <UsernamePasswordModal
+          visible={showUsernamePasswordModal}
+          onClose={() => setShowUsernamePasswordModal(false)}
+          onLoginSuccess={handleUsernamePasswordLoginSuccess}
+        />
       </View>
     );
   }
@@ -101,19 +122,29 @@ export default function MyFlowersPage() {
         </Button>
       </View>
 
-      <View className="flower-list">
-        {flowers.map((flower) => (
-          <FlowerCard
-            key={flower.id}
-            flower={flower}
-            onOpenDetail={goDetail}
-            onEdit={goEdit}
-            onWatered={handleWatered}
-          />
-        ))}
-      </View>
-
-      {!flowers.length && <View className='card muted'>还没有添加花卉，点击右上角开始。</View>}
+      {flowers.length === 0 ? (
+        <View className='empty-state'>
+          <Text className='empty-text'>您还没有添加任何小花</Text>
+          <Button
+            className='primary-btn'
+            onClick={() => Taro.navigateTo({ url: '/pages/add-flower/index' })}
+          >
+            立即添加
+          </Button>
+        </View>
+      ) : (
+        <View className='flower-list'>
+          {flowers.map((flower) => (
+            <FlowerCard
+              key={flower.id}
+              flower={flower}
+              onDetailClick={goDetail}
+              onEditClick={goEdit}
+              onWatered={handleWatered}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 }

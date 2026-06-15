@@ -2,7 +2,8 @@ import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { isAuthenticated, wechatLogin, getUserInfo } from '@/services/authService';
-import type { UserInfo } from '@/types/flower';
+import UsernamePasswordModal from '@/components/UsernamePasswordModal';
+import type { UserInfo, LoginResult } from '@/types/flower';
 import './index.scss';
 
 const menus = [
@@ -15,6 +16,7 @@ const menus = [
 export default function ProfilePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [showUsernamePasswordModal, setShowUsernamePasswordModal] = useState(false);
 
   useEffect(() => {
     checkLoginStatus();
@@ -65,6 +67,14 @@ export default function ProfilePage() {
     }
   };
 
+  const handleUsernamePasswordLoginSuccess = (result: LoginResult) => {
+    if (result.success) {
+      setIsLoggedIn(true);
+      setUserInfo(result.userInfo || null);
+      setShowUsernamePasswordModal(false);
+    }
+  };
+
   // 如果未登录，显示登录提示
   if (!isLoggedIn) {
     return (
@@ -78,7 +88,18 @@ export default function ProfilePage() {
           >
             <Text className='login-button__text'>微信一键登录</Text>
           </View>
+          <View
+            className='login-button secondary'
+            onClick={() => setShowUsernamePasswordModal(true)}
+          >
+            <Text className='login-button__text'>用户名密码登录</Text>
+          </View>
         </View>
+        <UsernamePasswordModal
+          visible={showUsernamePasswordModal}
+          onClose={() => setShowUsernamePasswordModal(false)}
+          onLoginSuccess={handleUsernamePasswordLoginSuccess}
+        />
       </View>
     );
   }
@@ -104,7 +125,7 @@ export default function ProfilePage() {
           }}
         >
           <Text>{menu.title}</Text>
-          <Text className='muted'> &gt; </Text>
+          <Text className='arrow'>›</Text>
         </View>
       ))}
     </View>

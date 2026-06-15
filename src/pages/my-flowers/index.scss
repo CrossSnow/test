@@ -42,11 +42,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20rpx;
 
   &__text {
     color: white;
     font-size: 32rpx;
     font-weight: 500;
+  }
+
+  &.secondary {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+
+    .login-button__text {
+      color: #666;
+    }
   }
 }
 
